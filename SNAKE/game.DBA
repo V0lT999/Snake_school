@@ -1,0 +1,2585 @@
+Rem * Title  : Snake
+Rem * Author : DWBC
+Rem * Date   : 1st May 2000
+cls
+do
+cls
+
+rem меню
+load bitmap "Menu.bmp",1
+get image 1,0,0,170,40
+sprite 1,200,50,1
+size sprite 1,170,40
+
+load bitmap "NewM.bmp",2
+get image 2,0,0,170,40
+sprite 2,200,120,2
+size sprite 2,170,40
+
+load bitmap "BestM.bmp", 3
+get image 3,0,0,170,40
+sprite 3,200,190,3
+size sprite 3,170,40
+
+load bitmap "SetM.bmp",4
+get image 4,0,0,170,40
+sprite 4,200,260,4
+size sprite 4,170,40
+
+load bitmap "ExM.bmp",12
+get image 12,0,0,170,40
+sprite 12,200,330,12
+size sprite 12,170,40
+
+delete bitmap 1
+delete bitmap 2
+delete bitmap 3
+delete bitmap 4
+delete bitmap 12
+
+
+
+rem координаты меню, заполнение массивов
+dim Newx(170)
+dim Newy(40)
+dim Bestx(170)
+dim Besty(40)
+dim Setx(170)
+dim Sety(40)
+dim Exx(170)
+dim Exy(40)
+
+Newx(1)=200
+Newy(1)=120
+Bestx(1)=200
+Besty(1)=190
+Setx(1)=200
+Sety(1)=260
+Exx(1)=200
+Exy(1)=330
+
+for k=2 to 170
+Newx(k)=Newx(k-1)+1
+next k
+
+for k=2 to 40
+Newy(k)=Newy(k-1)+1
+next k
+
+for k=2 to 170
+Bestx(k)=Bestx(k-1)+1
+next k
+
+for k=2 to 40 
+Besty(k)=Besty(k-1)+1
+next k
+
+for k=2 to 170
+Setx(k)=Setx(k-1)+1
+next k
+
+for k=2 to 40
+Sety(k)=Sety(k-1)+1
+next k
+
+for k=2 to 170
+Exx(k)=Exx(k-1)+1
+next k
+
+for k=2 to 40
+Exy(k)=Exy(k-1)+1
+next k
+
+
+rem меню бездействие
+while mouseclick()<>1 
+show mouse
+endwhile
+
+
+rem начало процесса
+if mouseclick()=1 
+rem начало игры
+	for k=1 to 170
+	 if mousex()=Newx(k)
+		for i=1 to 40
+			if mousey()=Newy(i)	
+
+if sprite exist(1)=1
+	delete sprite 1
+endif
+
+if sprite exist(2)=1
+	delete sprite 2
+endif
+
+if sprite exist(3)=1
+	delete sprite 3
+endif
+
+if sprite exist(4)=1
+	delete sprite 4
+endif
+
+if sprite exist(12)=1
+	delete sprite 12
+endif
+
+hide mouse
+position mouse 10,10
+
+x=100
+y=100
+k=5
+h=2
+x1=rnd(400)
+y1=rnd(300)
+
+if x1=x 
+	while x1=x
+	x1=rnd(400)
+	endwhile
+endif
+
+if y1=y
+	while x1=x
+	y1=rnd(300)
+	endwhile
+endif
+
+if y1<55
+	while x1<55
+	y1=rnd(300)
+	endwhile
+endif
+	
+load bitmap "Snakeh.bmp",5
+get image k,0,0,170,40
+sprite k,x,y,5
+size sprite k,60,35
+
+
+dim snakex1(60)
+dim snakex2(23)
+dim snakey(35)
+
+snakex1(1)=x
+snakex2(1)=x
+snakey(1)=y
+
+for k=2 to 60
+snakex1(k)=snakex1(k-1)+1
+next k
+
+for k=2 to 23
+snakex2(k)=snakex2(k-1)+1
+next k
+
+for k=2 to 35
+snakey(k)=snakey(k-1)+1
+next k
+
+a=timer()
+
+s1=0
+s=0
+s11=s
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+		
+rem управление
+while b<60000
+
+load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		if p=1
+		delete sprite 15
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+		endif
+
+load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+p=0
+
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		delete bitmap 15
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+if p<>1
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		delete bitmap 15
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+		
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		delete bitmap 15
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+		
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1 
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		delete bitmap 15
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1		
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+endif
+
+if rightkey()=1 
+	while rightkey()=1
+		load bitmap "Snakeh.bmp",5
+		get image 5,0,0,170,40
+		sprite 5,x,y,5
+		size sprite 5,60,35
+		delete bitmap 5
+		x=x+15
+		snakex1(1)=x
+		snakex2(1)=x
+		for k=2 to 60
+		snakex1(k)=snakex1(k-1)+1
+		next k
+		for k=2 to 23
+		snakex2(k)=snakex2(k-1)+1
+		next k
+		
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		if p=1
+		delete sprite 15
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+		endif
+
+		load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+p=0
+
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+if p<>1
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		delete bitmap 15
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+endif
+
+	endwhile
+endif
+			
+
+
+if leftkey()=1
+	while leftkey()=1
+		load bitmap "Snakehl.bmp",6
+		get image 6,0,0,170,40
+		sprite 5,x,y,6
+		size sprite 5,60,35
+		x=x-15
+		snakex1(1)=x
+		snakex2(1)=x
+		for k=2 to 60
+		snakex1(k)=snakex1(k-1)+1
+		next k
+		for k=2 to 23
+		snakex2(k)=snakex2(k-1)+1
+		next k
+		
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		if p=1
+		delete sprite 15
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+		endif
+
+		load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+p=0
+
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+if p<>1
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+endif
+
+	endwhile
+endif
+
+
+if upkey()=1
+	while upkey()=1
+		load bitmap "Snakehu.bmp",7
+		get image 7,0,0,90,140
+		sprite 5,x,y,7
+		size sprite 5,23,35
+		y=y-15
+		snakey(1)=y
+		for k=2 to 35
+		snakey(k)=snakey(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		if p=1
+		delete sprite 15
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+		endif
+
+		load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+if p<>0
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+		
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+endif
+
+	endwhile
+endif
+
+
+if downkey()=1 
+	while downkey()=1
+		load bitmap "Snakehd.bmp",8
+		get image 8,0,0,90,140
+		sprite 5,x,y,8
+		size sprite 5,23,35
+		y=y+15
+		snakey(1)=y
+		for k=2 to 35
+		snakey(k)=snakey(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+
+		if p=1
+		delete sprite 15
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+		endif
+
+		load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+p=0
+
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+
+if p<>1
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+endif
+
+if p<>1
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		while sprite exist(15)=1
+		delete sprite 15
+		endwhile
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		p=1
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+endif
+
+	endwhile
+endif
+
+if spacekey()=1
+exit
+endif
+
+endwhile
+
+if sprite exist(5)=1
+delete sprite 5
+endif
+
+if bitmap exist(5)=1
+delete bitmap 5
+endif
+
+
+if sprite exist(10)=1
+delete sprite 10
+endif
+
+if bitmap exist(10)=1
+delete bitmap 10
+endif
+
+if sprite exist(15)=1
+delete sprite 15
+endif
+
+if bitmap exist(15)=1
+delete bitmap 15
+endif
+
+if sprite exist(21)=1
+delete sprite 21
+endif
+
+if bitmap exist(21)=1
+delete bitmap 21
+endif
+
+if sprite exist(22)=1
+delete sprite 22
+endif
+
+if bitmap exist(22)=1
+delete bitmap 22
+endif
+
+
+open to read 1, "Best.txt"
+
+dim Bestr$(10)
+dim Res(10)
+dim Kol(10)
+dim Name$(10)
+dim Name2$(10)
+dim Res2$(10)
+
+rem заполнение массива результатами
+for k=1 to 10
+read string 1, Bestr$(k)
+if Len(Bestr$(k))>3 
+Bestr$(k)=left$(Bestr$(k),3)
+
+for i=100 to 120
+	if Bestr$(k)=Str$(i)
+	o=1
+	Kol(k)=i
+	endif
+next i
+
+if o<>1 
+Bestr$(k)=left$(Bestr$(k),2)
+endif
+
+for i=10 to 99
+	if Bestr$(k)=Str$(i)
+	o=1
+	Kol(k)=i
+	endif
+next i
+
+if o<>1 
+Bestr$(k)=left$(Bestr$(k),1)
+endif
+
+for i=1 to 9
+	if Bestr$(k)=Str$(i)
+	print gogo
+	o=1
+	Kol(k)=i
+	endif
+next i
+
+if o<>1
+Bestr$(k)=Str$(0)
+Kol(k)=0
+endif
+
+o=0
+
+endif
+next k
+
+close file 1
+open to read 1, "Best.txt"
+
+rem заполнение массива именами
+for k=1 to 10
+read string 1, Name$(k)
+Name$(k)=Right$(Name$(k),len(Name$(k))-5)
+next k
+
+rem проверка рекорда(перезапись табл рек)
+for k=1 to 10
+	if s>Kol(k)
+	Res(k)=s
+	k1=k
+	load bitmap "Name.bmp",16
+	get image 16,0,0,220,90
+	sprite 16,200,200,16
+	size sprite 16,200,90
+	delete bitmap 16
+	set cursor 220, 250
+
+		while returnkey()<>1
+			input i$
+		endwhile
+
+		Ink Rgb(0,0,0), Rgb(0,0,0)
+		set cursor 220, 250
+		print i$
+		Ink Rgb(250,250,250), Rgb(0,0,0)
+
+		if len(i$)>10
+			i$=left$(i$,10)
+		endif
+			Name2$(k)=i$
+if k<10
+			for i=1 to 10-k1
+				Res(k+1)=Kol(k)
+				k=k+1
+			next i
+		else
+			Res(k)=Kol(K-1)
+		endif
+		
+		k=k1
+
+		if k<10
+			for i=1 to 10-k1
+				Name2$(k+1)=Name$(k)
+				k=k+1
+			next i
+		else
+			Name2$(k)=Name$(k-1)
+		endif
+		exit
+
+	else
+
+if s=Kol(k)
+				Res(k)=s
+					k1=k
+					load bitmap "Name.bmp",16
+					get image 16,0,0,220,90
+					sprite 16,200,200,16
+					size sprite 16,200,90
+					delete bitmap 16
+					set cursor 220, 250
+				
+						while returnkey()<>1
+							input i$
+						endwhile
+				
+						Ink Rgb(0,0,0), Rgb(0,0,0)
+						set cursor 220, 250
+						print i$
+						Ink Rgb(250,250,250), Rgb(0,0,0)
+				
+						if len(i$)>10
+							i$=left$(i$,10)
+						endif
+							Name2$(k)=i$
+							
+							if k<10
+							for i=1 to 10-k1
+								Res(k+1)=Kol(k)
+								k=k+1
+							next i
+						else
+							Res(k)=Kol(K-1)
+						endif
+					
+						k=k1
+						
+						if k<10
+							for i=1 to 10-k1
+								Name2$(k+1)=Name$(k)
+								k=k+1
+							next i
+						else
+							Name2$(k)=Name$(K-1)
+						endif
+						exit
+				else
+
+					if s<Kol(k)
+					Res(k)=Kol(k)
+					Name2$(k)=Name$(k)
+					endif
+
+				endif
+		endif
+next k
+
+	close file 1
+	delete file "Best.txt"
+
+	open to write 2, "Best.txt"
+
+		for i=1 to 10 
+			Res2$(i)=Str$(Res(i))
+				if len(Res2$(i))=2
+					a$=Res2$(i)+ "   " +Name2$(i)
+					write string 2, a$
+				else
+					a$=Res2$(i)+ "  " +Name2$(i)
+					write string 2, a$
+				endif
+		next i
+		close file 2
+
+while spacekey()<>1
+
+if bitmap exist(16)
+delete bitmap 16
+endif
+
+if sprite exist(16)
+delete sprite 16
+endif
+
+load bitmap "Rec.bmp",17
+get image 17,0,0,220,90
+sprite 17,150,100,17
+size sprite 17,200,200
+delete bitmap 17
+
+open to read 3, "Best.txt"
+
+for i=1 to 10
+read string 3, Bestr$(i)
+next i
+
+close file 3
+
+y=200
+
+for i=1 to 10
+set cursor 200, y
+print Bestr$(i)
+y=y+20
+next i
+
+if spacekey()=1 
+delete sprite 17
+exit
+endif
+
+s=0
+
+endwhile
+
+endif
+next i
+endif
+next k
+
+
+for k=1 to 170
+	 if mousex()=Bestx(k)
+		for i=1 to 40
+			if mousey()=Besty(i)	
+if sprite exist(1)=1
+	delete sprite 1
+endif
+
+if sprite exist(2)=1
+	delete sprite 2
+endif
+
+if sprite exist(3)=1
+	delete sprite 3
+endif
+
+if sprite exist(4)=1
+	delete sprite 4
+endif
+
+if sprite exist(12)=1
+	delete sprite 12
+endif
+
+hide mouse
+position mouse 10,10
+
+dim Best$(10)
+
+while spacekey()<>1
+
+if bitmap exist(16)
+delete bitmap 16
+endif
+
+if sprite exist(16)
+delete sprite 16
+endif
+
+load bitmap "Rec.bmp",17
+get image 17,0,0,220,90
+sprite 17,150,100,17
+size sprite 17,200,200
+delete bitmap 17
+
+open to read 3, "Best.txt"
+
+for i=1 to 10
+read string 3, Best$(i)
+next i
+
+close file 3
+
+y=200
+
+for i=1 to 10
+set cursor 200, y
+print Best$(i)
+y=y+20
+next i
+
+if spacekey()=1 
+delete sprite 17
+exit
+endif
+
+endwhile
+endif
+next i
+endif
+next k
+
+for k=1 to 170
+	 if mousex()=Setx(k)
+		for i=1 to 40
+			if mousey()=Sety(i)	
+if sprite exist(1)=1
+	delete sprite 1
+endif
+
+if sprite exist(2)=1
+	delete sprite 2
+endif
+
+if sprite exist(3)=1
+	delete sprite 3
+endif
+
+if sprite exist(4)=1
+	delete sprite 4
+endif
+
+if sprite exist(12)=1
+	delete sprite 12
+endif
+
+hide mouse
+position mouse 10,10
+
+x=300
+
+while spacekey()<>1
+load bitmap "Sets.bmp", 11
+get image 11,0,0,170,40
+sprite 11,300,300,11
+size sprite 11,200,20
+if bitmap exist(11)=1
+delete bitmap 11
+endif
+
+load bitmap "polz.bmp", 19
+get image 19,0,0,90,140
+sprite 19,x,300,19
+size sprite 19,2,20
+if bitmap exist(19)=1
+delete bitmap 19
+endif
+
+load bitmap "Sou.bmp", 20
+get image 20,0,0,188,40
+sprite 20,350,250,20
+size sprite 20,90,30
+if bitmap exist(20)
+delete bitmap 20
+endif
+
+if rightkey()=1
+z1=z
+while rightkey()=1
+x=x+2
+if x>500
+x=500
+endif
+if sprite exist(19)=1
+delete sprite 19
+endif
+load bitmap "polz.bmp", 19
+get image 19,0,0,90,140
+sprite 19,x,300,19
+size sprite 19,2,20
+if bitmap exist(19)=1
+delete bitmap 19
+endif
+z=(x-300)/2
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 410,257
+print z1
+set cursor 410,257
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print z
+z1=z
+endwhile
+endif
+
+if leftkey()=1
+z1=z
+while leftkey()=1
+x=x-2
+if x<300
+x=300
+endif
+if sprite exist(19)=1
+delete sprite 19
+endif
+load bitmap "polz.bmp", 19
+get image 19,0,0,90,140
+sprite 19,x,300,19
+size sprite 19,2,20
+if bitmap exist(19)=1
+delete bitmap 19
+endif
+z=(x-300)/2
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 410,257
+print z1
+set cursor 410,257
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print z
+z1=z
+endwhile
+endif
+
+if spacekey()=1
+exit
+endif
+
+endwhile
+
+if bitmap exist(10)=1
+delete bitmap 10
+endif
+
+if sprite exist(10)=1
+delete sprite 10
+endif
+
+if sprite exist(11)=1
+delete sprite 11
+endif
+
+if sprite exist(19)=1
+delete sprite 19
+endif
+
+if sprite exist(20)=1
+delete sprite 20
+endif
+
+endif
+next i
+endif
+next k
+
+
+for k=1 to 170
+	 if mousex()=Exx(k)
+		for i=1 to 40
+			if mousey()=Exy(i)
+
+if sprite exist(1)=1
+	delete sprite 1
+endif
+
+if sprite exist(2)=1
+	delete sprite 2
+endif
+
+if sprite exist(3)=1
+	delete sprite 3
+endif
+
+if sprite exist(4)=1
+	delete sprite 4
+endif
+
+if sprite exist(12)=1
+	delete sprite 12
+endif
+
+
+while spacekey()<>1
+load bitmap "Gb.bmp",13
+get image 13,0,0,170,40
+sprite 13,200,200,13
+size sprite 13,250,100
+endwhile
+
+endif
+next i
+endif
+next k
+
+endif
+if sprite exist(13)=1
+exit
+else
+show mouse
+
+endif
+loop

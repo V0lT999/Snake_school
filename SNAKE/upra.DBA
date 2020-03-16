@@ -1,0 +1,346 @@
+load bitmap "Score.bmp", 21
+get image 21,0,0,188,40
+sprite 21,10,10,21
+size sprite 21,90,30
+if bitmap exist(21)
+delete bitmap 21
+endif
+
+load bitmap "Time.bmp", 22
+get image 22,0,0,188,40
+sprite 22,120,10,22
+size sprite 22,90,30
+if bitmap exist(22)
+delete bitmap 22
+endif
+
+b=timer()-a
+b1=b/1000
+
+if s=s1+2
+s=s-1
+endif
+
+if s>s1
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 70,17
+print s11
+set cursor 70,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print s
+s11=s
+s1=s
+endif
+
+Ink Rgb(0,0,0), Rgb(0,0,0)
+set cursor 180,17
+print b11
+set cursor 180,17
+Ink Rgb(250,250,250), Rgb(0,0,0)
+print b1
+b11=b1
+
+for k=1 to 60
+	for l=1 to 40
+	 if ballx(l)=snakex1(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+		delete bitmap 15
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+for k=1 to 23
+	for l=1 to 40
+	 if ballx(l)=snakex2(k)
+		for i=1 to 20
+			for h=1 to 35
+			if snakey(h)=bally(i)
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+		delete bitmap 15
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 60
+	for l=1 to 20
+	 if ballx(l)=snakex1(k)
+		
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+		delete bitmap 15
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+		
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		exit
+			endif
+			next h
+		next i
+	exit
+	endif
+	next l
+next k
+
+for i=1 to 40
+	for h=1 to 35
+		if snakey(h)=bally(i)
+for k=1 to 23
+	for l=1 to 20
+	 if ballx(l)=snakex2(k)
+		
+		if sprite exist(15)=1
+		delete sprite 15
+		endif
+		if bitmap exist(15)=1
+		delete bitmap 15
+		endif
+
+		x1=rnd(400)
+		y1=rnd(300)
+
+		if x1=x 
+			while x1=x
+			x1=rnd(400)
+			endwhile
+		endif
+
+		if y1=y
+			while x1=x
+			y1=rnd(300)
+			endwhile
+		endif
+		
+		if y1<55
+			while y1<55
+			y1=rnd(300)
+			endwhile
+		endif
+
+		dim ballx(80)
+		dim bally(40)
+
+		ballx(1)=x1
+		bally(1)=y1
+
+		for k=2 to 40
+		ballx(k)=ballx(k-1)+1
+		next k
+
+		for k=2 to 20
+		bally(k)=bally(k-1)+1
+		next k
+
+		load bitmap "Ball.bmp",15
+		get image 15,0,0,80,40
+		sprite 15,x1,y1,15
+		size sprite 15,40,20
+		delete bitmap 15
+
+		s=s+1
+		ballx(1)=x1
+		bally(1)=y1
+
+		for j=2 to 40
+		ballx(j)=ballx(j-1)+1
+		next j
+
+		for m=2 to 20
+		bally(m)=bally(m-1)+1
+		next m
+
+		exit
+			endif
+			next l
+		next k
+		exit
+	endif
+	next h
+next i
+
+
